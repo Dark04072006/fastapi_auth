@@ -1,0 +1,32 @@
+# docker-compose.yml
+
+version: '3.8'
+
+services:
+  web:
+    build: .
+    command: bash -c 'while !</dev/tcp/db/5432; do sleep 1; done; alembic revision -m "third migrations" --autogenerate; alembic upgrade head; uvicorn app.main:app --host 0.0.0.0'
+    volumes:
+      - .:/app
+    ports:
+      - 8008:8000
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://docker_dark:dark0407@db:5432/blog
+    depends_on:
+      - db
+
+  db:
+    image: postgres:14.3-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    expose:
+      - 5432
+    ports:
+      - 5433:5432
+    environment:
+      - POSTGRES_USER=docker_dark
+      - POSTGRES_PASSWORD=dark0407
+      - POSTGRES_DB=blog
+
+volumes:
+  postgres_data:

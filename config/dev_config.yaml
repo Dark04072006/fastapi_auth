@@ -1,0 +1,11 @@
+application:
+  secret:
+    jwt_secret: s_:JB3fwjE&T~F$u4+kq|9b27cc0df5686f2fc285fb387ec438f71b591574|49a38e03ffee950d05546c049531f3ff
+    manager_secret: cprCRjfbg=P;)Z-M2#4q|5493aa830ca379019474d715bd37b8ba5f4bdcfc|92d86034aa8b75a572ff501e7aa001e9
+
+database:
+  username: postgres
+  password: dark0407
+  host: localhost
+  port: 5432
+  name: blog
