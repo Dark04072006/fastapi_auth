@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "fastapi-auth"
+version = "0.1.0"
+description = ""
+authors = ["dark <abrekovalim38702@gmail.com>"]
+readme = "README.md"
+packages = [{include = "fastapi_auth"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+email-validator = "^2.0.0.post2"
+fastapi = "^0.100.1"
+pyjwt = "^2.8.0"
+python-decouple = "^3.8"
+uvicorn = "^0.23.1"
+sqlalchemy = "^2.0.19"
+aiosqlite = "^0.19.0"
+bcrypt = "^4.0.1"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
