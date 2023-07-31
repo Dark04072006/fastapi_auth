@@ -26,7 +26,7 @@ async def register(user: schemas.UserRegisterSchema, session: AsyncSession = Dep
     return await service.create_user(session, user)
 
 
-@app.post('/api/login' , response_model=schemas.TokenSchema, tags=['Авторизация'])
+@app.post('/api/login', response_model=schemas.TokenSchema, tags=['Авторизация'])
 async def login(user: schemas.UserLoginSchema, session: AsyncSession = Depends(get_session)):
     queryset = await service.get_user_by_email(session, user.email)
     if (queryset is None) or (not verify_password(user.password, queryset.password)):
