@@ -2,7 +2,6 @@ from app.auth.services.password import verify_password
 from app.auth.auth_handler import signJWT, verify_jwt, decodeJWT
 from app.auth.auth_bearer import JWTBearer
 from app.auth.services import crud_operations as service
-# from app.auth.permissions import only_current_user_perm
 
 from app import schemas
 from app.models import User
