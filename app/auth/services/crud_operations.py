@@ -36,7 +36,7 @@ async def update_user(session: AsyncSession, email: str, schema: UserRegisterSch
                 last_name=schema.last_name,
                 email=schema.email,
                 password=hash_password(schema.password)
-            ).returning(User).returning(User))
+            ).returning(User))
     await session.commit()
     return result.scalar_one()
 
