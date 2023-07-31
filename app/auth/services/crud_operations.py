@@ -8,6 +8,17 @@ from app.schemas import UserRegisterSchema
 from app.auth.services.password import hash_password
 
 
+async def change_user(session: AsyncSession, schema: UserRegisterSchema):
+    result = await session.execute(insert(User).values(
+                first_name=schema.first_name,
+                last_name=schema.last_name,
+                email=schema.email,
+                password=hash_password(schema.password)
+            ).returning(User))
+    await session.commit()
+    return result.scalar_one()
+
+
 async def get_user_by_email(session: AsyncSession, email: str) -> Optional[User]:
     result = await session.execute(select(User).where(User.email == email))
     result = result.scalar_one_or_none()
@@ -20,25 +31,11 @@ async def create_user(session: AsyncSession, schema: UserRegisterSchema) -> User
     user = await get_user_by_email(session, email=schema.email)
     if user:
         raise HTTPException(400, "User already exists")
-    result = await session.execute(insert(User).values(
-                first_name=schema.first_name,
-                last_name=schema.last_name,
-                email=schema.email,
-                password=hash_password(schema.password)
-            ).returning(User))
-    await session.commit()
-    return result.scalar_one()
+    return await change_user(session, schema)
 
 
 async def update_user(session: AsyncSession, email: str, schema: UserRegisterSchema) -> User:
-    result = await session.execute(update(User).where(User.email == email).values(
-                first_name=schema.first_name,
-                last_name=schema.last_name,
-                email=schema.email,
-                password=hash_password(schema.password)
-            ).returning(User))
-    await session.commit()
-    return result.scalar_one()
+    return await change_user(session, schema)
 
 
 async def delete_user(session: AsyncSession, email: str) -> None:
