@@ -1,19 +1,30 @@
 from app.auth.services.password import verify_password
-from app.auth.auth_handler import signJWT, verify_jwt, decodeJWT
+from app.auth.auth_handler import signJWT, verify_jwt
 from app.auth.auth_bearer import JWTBearer
 from app.auth.services import crud_operations as service
-# from app.auth.permissions import only_current_user_perm
 
 from app import schemas
 from app.models import User
 from core.database.utils import get_session, init_models
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi import FastAPI, HTTPException, Depends, Response, status
 from fastapi.responses import JSONResponse
+from fastapi.middleware.cors import CORSMiddleware
+from fastapi import FastAPI, HTTPException, Depends, Response, status
+
+from core.settings import ORIGINS, ALLOWED_HEADERS, ALLOWED_METHODS
 
 
 app = FastAPI(title='Сервис авторизации на FastAPI')
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=ORIGINS,
+    allow_credentials=True,
+    allow_methods=ALLOWED_METHODS,
+    allow_headers=ALLOWED_HEADERS,
+)
 
 
 @app.on_event("startup")

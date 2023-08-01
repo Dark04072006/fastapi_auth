@@ -11,7 +11,7 @@ class UserRegisterSchema(UserBaseSchema):
     password: str = Field(...)
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "first_name": "name",
                 "last_name": "surname",
@@ -26,7 +26,7 @@ class UserLoginSchema(BaseModel):
     password: str = Field(...)
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "email": "user@example.com",
                 "password": "any"
@@ -40,7 +40,7 @@ class UserSchema(UserBaseSchema):
     class Config:
         from_attributes = True
         
-        schema_extra = {
+        json_schema_extra = {
             "example": {
                 "id": 0,
                 "first_name": "name",
@@ -54,6 +54,6 @@ class TokenSchema(BaseModel):
     access_token: str
 
     class Config:
-        schema_extra = {
+        json_schema_extra = {
             'example': {'token': 'super_secret_jwt_token'}
         }
